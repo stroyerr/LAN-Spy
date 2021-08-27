@@ -1,5 +1,7 @@
 package me.stroyer.lanSpy.UI;
 
+import me.stroyer.lanSpy.Listeners.listenerStorage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,10 +16,12 @@ public class Spy {
         JPanel top = new JPanel();
 
         JButton newListener = new JButton("New Network Listener");
+        JButton viewListeners = new JButton("View existing listeners");
 
         top.add(newListener, Component.LEFT_ALIGNMENT);
 
         frame.getContentPane().add(top, BorderLayout.PAGE_START);
+        frame.add(viewListeners);
         frame.setVisible(true);
 
         newListener.addActionListener(new ActionListener(){
@@ -29,6 +33,13 @@ public class Spy {
 
             }
 
+        });
+
+        viewListeners.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String i = JOptionPane.showInputDialog("Enter the numerical ID of the listener to view (between 0 and "+ (listenerStorage.listeners.size()-1)+" .");
+            }
         });
     }
 }

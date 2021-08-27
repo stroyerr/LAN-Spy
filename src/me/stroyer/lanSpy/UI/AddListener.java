@@ -1,5 +1,6 @@
 package me.stroyer.lanSpy.UI;
 
+import me.stroyer.lanSpy.Listeners.lanListener;
 import me.stroyer.lanSpy.Methods.ConfirmBox;
 
 import javax.swing.*;
@@ -10,11 +11,12 @@ import java.awt.event.ActionListener;
 
 public class AddListener {
 
+    public static JFrame frame = new JFrame("LAN Spy ~ Strpuer");
+
     public static void open(){
-        JFrame frame = new JFrame("LAN Spy ~ Stroyer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(820, 300);
-        frame.setLayout(new GridLayout(3, 80));
+        frame.setLayout(new GridLayout(1, 80));
 
         JPanel top = new JPanel();
 
@@ -51,6 +53,7 @@ public class AddListener {
 //        frame.add(middle, "8");
 
         JButton close = new JButton("Cancel");
+        JButton back = new JButton("Back");
 
         frame.add(desc, "1");
 //
@@ -62,22 +65,36 @@ public class AddListener {
 
 
         frame.add(close, "23");
+        frame.add(back, "24");
 
         frame.pack();
         frame.setVisible(true);
 
-        String nick = listenerName.getText();
-        int id = 1;
-        int type = listenerType.getSelectedIndex();
 
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (listenerType.getSelectedIndex() != 0){
-                    ConfirmBox.open();
-                }else{
-                    Alert.infoBox("You must select a listener channel.");
+                if (listenerType.getSelectedIndex() != 0) {
+                    //ConfirmBox.open();
+
+                    String nick = listenerName.getText();
+                    int id = 1;
+                    int type = listenerType.getSelectedIndex();
+                    int confirmation = JOptionPane.showConfirmDialog(null, "Are you sure?");
+
+                    if(confirmation == 0){
+                        Alert.infoBox("Generating ...");
+                        lanListener newListener = new lanListener(id, nick, type);
+                        Alert.infoBox("Succesfully generated LAN Listener [Internal ID: " + newListener.id + " // Nickname: "+newListener.name+" // Channel: "+newListener.channel+" (integer "+type+")"+"]");
+                    }
                 }
+            }
+        });
+
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
             }
         });
 
