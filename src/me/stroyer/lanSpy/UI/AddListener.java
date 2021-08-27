@@ -1,8 +1,12 @@
 package me.stroyer.lanSpy.UI;
 
+import me.stroyer.lanSpy.Methods.ConfirmBox;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AddListener {
 
@@ -10,7 +14,7 @@ public class AddListener {
         JFrame frame = new JFrame("LAN Spy ~ Stroyer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(820, 300);
-        frame.setLayout(new GridLayout(3, 8));
+        frame.setLayout(new GridLayout(3, 80));
 
         JPanel top = new JPanel();
 
@@ -25,10 +29,12 @@ public class AddListener {
 
         JPanel middle = new JPanel();
 
-        String[] listenerTypes = new String[4];
-        listenerTypes[0] = "IPv6"; listenerTypes[1] = "DNS"; listenerTypes[2] = "Domain"; listenerTypes[3] = "Subnet Gateway";
+        String[] listenerTypes = new String[5];
+        listenerTypes[4] = "IPv6"; listenerTypes[1] = "DNS"; listenerTypes[2] = "Domain"; listenerTypes[3] = "Subnet Gateway"; listenerTypes[0] = "-- Select a listener channel --";
         JComboBox<String> listenerType = new JComboBox<String>(listenerTypes);
         JLabel listenerOptions = new JLabel("Listening Channel: ");
+
+        JButton saveButton = new JButton("Save");
 
 //        middle.add(listenerInt);
 //        middle.add(listenerName);
@@ -52,12 +58,30 @@ public class AddListener {
         frame.add(listenerName, "9");
         frame.add(listenerOptions, "10");
         frame.add(listenerType, "10");
+        frame.add(saveButton, "12");
 
 
         frame.add(close, "23");
 
         frame.pack();
         frame.setVisible(true);
+
+        String nick = listenerName.getText();
+        int id = 1;
+        int type = listenerType.getSelectedIndex();
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (listenerType.getSelectedIndex() != 0){
+                    ConfirmBox.open();
+                }else{
+                    Alert.infoBox("You must select a listener channel.");
+                }
+            }
+        });
+
+
     }
 
 }
