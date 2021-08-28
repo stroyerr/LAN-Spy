@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 public class Menu {
 
     public static void open(){
-        JFrame frame = new JFrame("LAN Spy ~ Stroyer");
+        JFrame frame = new JFrame("LAN Spy: " + InitialiseUI.profileType);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 450);
         JLabel title = new JLabel("LAN Spy by Stroyer");

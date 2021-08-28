@@ -11,7 +11,9 @@ import java.awt.event.ActionListener;
 
 public class AddListener {
 
-    public static JFrame frame = new JFrame("LAN Spy ~ Strpuer");
+    public static int numberOfListeners = 0;
+
+    public static JFrame frame = new JFrame("LAN Spy: " + InitialiseUI.profileType);
 
     public static void open(){
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,7 +25,7 @@ public class AddListener {
 
         String description = "Creating a new Network Listener allows you to monitor and listen for discrete packages amongst the network.";
         JLabel desc = new JLabel();
-        JLabel listenerInt = new JLabel("ID: ");
+        JLabel listenerInt = new JLabel("ID: " + numberOfListeners + 1);
         JTextField listenerName = new JTextField("Listener Nickname",1 );
         desc.setText("<html><div style='width: %dpx'><h1>LAN Spy</h1><p>Creating a new Network Listener allows you to monitor and listen for discrete packages amongst the network.</p><br/><br/><br/></div></html>");
 
@@ -77,14 +79,23 @@ public class AddListener {
                 if (listenerType.getSelectedIndex() != 0) {
                     //ConfirmBox.open();
 
+                    if (InitialiseUI.profileInt == 1){
+                        if(numberOfListeners == 1){
+                            Alert.infoBox("Maximum number of listeners for Personal profile reached.");
+                            return;
+                        }
+                    }
+
                     String nick = listenerName.getText();
-                    int id = 1;
+                    int id = numberOfListeners + 1;
                     int type = listenerType.getSelectedIndex();
                     int confirmation = JOptionPane.showConfirmDialog(null, "Are you sure?");
 
                     if(confirmation == 0){
                         Alert.infoBox("Generating ...");
                         lanListener newListener = new lanListener(id, nick, type);
+                        numberOfListeners ++;
+                        frame.dispose();
                         Alert.infoBox("Succesfully generated LAN Listener [Internal ID: " + newListener.id + " // Nickname: "+newListener.name+" // Channel: "+newListener.channel+" (integer "+type+")"+"]");
                     }
                 }
